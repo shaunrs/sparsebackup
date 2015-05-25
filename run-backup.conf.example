@@ -1,0 +1,14 @@
+[sources]
+
+MemorableName:    /Users/example/MyImage.sparse
+
+
+[targets]
+
+webhost:          user@webhost.com:./my-backup/
+otherhost:        user@otherhost.com:./
+
+
+[actions]
+
+MemorableName:    webhost,otherhost
