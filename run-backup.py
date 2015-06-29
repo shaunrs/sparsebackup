@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import sys
+import os
 import time
 import subprocess
 import ConfigParser
@@ -47,6 +48,20 @@ def image_mounted(name):
     else:
         return False
 
+def backup_running(_remove=False):
+    if _remove is True:
+        # Remove the file
+        os.remove('/tmp/sparse-backup.lock')
+        return False
+
+    # Check that the lockfile does not exist
+    if os.path.isfile('/tmp/sparse-backup.lock'):
+        return True
+    else:
+        open('/tmp/sparse-backup.lock', 'w').close()
+
+
+    return False
 
 # Main routine, to perform the backups
 def main():
@@ -111,4 +126,11 @@ def main():
 
 
 if __name__ == "__main__":
+
+    if backup_running():
+        print "Backup already running (lockfile exists), exiting.."
+        sys.exit(10)
+
     main()
+
+    backup_running(_remove=True)
